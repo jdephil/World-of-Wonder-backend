@@ -9,11 +9,31 @@ mongoose.connect(db).then((() => console.log('MONGOOSE CONNECTED'))).catch(err =
 
 const artifact = require('./Routes/artifact')
 
+const User = require('./Models/User')
+
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
     res.send('Hello, world!')
+})
+
+app.post('/register', (req, res) => {
+    User.findOne({ email: req.body.email })
+    .then(user => {
+        if (user) {
+            res.send(user)
+        } else {
+            const newUser = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password
+            })
+            newUser.save()
+            .then(user => res.json(user))
+            .catch(err => console.log(err))
+        }
+    })
 })
 
 app.use('/artifact', artifact)

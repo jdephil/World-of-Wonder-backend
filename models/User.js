@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     },
     artifacts: [{
         type: Schema.Types.ObjectId,
-        ref: 'Artifact'
+        ref: 'artifact'
     }],
     journalEntries: [{
         type: Schema.Types.ObjectId,
