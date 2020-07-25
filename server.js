@@ -3,9 +3,10 @@ const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 
-const db = 'mongodb://localhost:27017/worldofwonder'
-mongoose.connect(db).then((() => console.log('MONGOOSE CONNECTED'))).catch(error => console.log(error))
-
+const db = process.env.MONGODB_URI
+mongoose.connect(db)
+  .then((() => console.log(`Connected to MongoDB at ${db.host}:${db.port}`)))
+  .catch(error => console.log(error))
 
 
 app.use(bodyParser.urlencoded({extended: false}))

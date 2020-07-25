@@ -12,4 +12,4 @@ const journalSchema = new Schema({
     timestamps: true
 })
 
-module.exports = Journal = mongoose.model('journalEntry', journalSchema)
+module.exports = mongoose.model('journalEntry', journalSchema)
