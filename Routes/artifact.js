@@ -4,7 +4,6 @@ const router = express.Router()
 const User = require('../Models/User')
 const Artifact = require('../Models/Artifact')
 
-
 router.get('/:id', (req, res) => {
     Artifact.findById(req.params.id)
     .then(artifact => {
@@ -37,12 +36,22 @@ router.post('/', (req, res) => {
     })
 })
 
-router.put('/', (req, res) => {
-
+router.put('/:id', (req, res) => {
+    Artifact.updateOne(
+        { _id: req.params.id },
+        {$set: {
+            name: req.body.name,
+            description: req.body.description
+        }}
+    )
+    .then(updated => res.send(updated))
+    .catch(err => console.log(`🚦 ${err} 🚦`))
 })
 
-router.delete('/', (req, res) => {
-
+router.delete('/:id', (req, res) => {
+    Artifact.deleteOne({ _id: req.params.id })
+    .then(deleted => res.send(deleted))
+    .catch(err => console.log(`🚦 ${err} 🚦`))
 })
 
 module.exports = router
