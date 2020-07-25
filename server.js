@@ -1,23 +1,18 @@
 const express = require('express')
 const app = express()
-// const db = require('./Models')
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 
-// let mongoose = require('mongoose')
-// mongoose.connect('mongodb://localhost/introgoose')
-// let db = mongoose.connection
-
-
-// === Another option for connecting routers //
-  // var profileRouter = require('./Routes/profile');
-  // app.use('/profile', profileRouter);
+const db = 'mongodb://localhost:27017/worldofwonder'
+mongoose.connect(db).then((() => console.log('MONGOOSE CONNECTED'))).catch(error => console.log(error))
 
 
-//========================Middleware
-// app.use(express.urlencoded({ encoded: false }))
-// app.use(express.json())
 
-//===========================Routes
+app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.json())
 app.use('/profile', require('./Routes/profile'))
+app.use('/journal', require('./Routes/journal'))
+
 
 app.get('/', (req, res) => {
   res.send('Welcome to our office!')

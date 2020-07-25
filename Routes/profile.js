@@ -16,28 +16,6 @@ const router = express.Router();
 //   })
 // })
 
-// Show profile page
-router.get('/', (req, res) => {
-  res.send('Look at all your cool items')
-})
-
-// Show info about a specific artifact 
-router.get('/:id', (req, res) => {
-  res.send("Congrats! You arrived at a page about an artifact!")
-})
-
-//Edit a saved artifact
-router.put('/:id', (req, res) => {
-  res.send("let's edit our artifact's name and info")
-})
-
-//Delete a saved artifact
-router.delete('/:id', (req, res) => {
-  res.send("You just deleted your artifact")
-})
-
-router.get('/')
-
 
 // Export the Routes
 module.exports = router
