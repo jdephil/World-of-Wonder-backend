@@ -18,10 +18,7 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'artifact'
     }],
-    journalEntries: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Journal'
-    }]
+    journalEntries: [journalSchema]
 }, {
     timestamps: true
 })

@@ -1,15 +1,15 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const JournalSchema = new Schema({
+const journalSchema = new Schema({
     title: {
       type: String
     },
-    entry: {
+    content: {
       type: String
     }
 }, {
     timestamps: true
 })
 
-module.exports = Journal = mongoose.model('journal', JournalSchema)
+module.exports = Journal = mongoose.model('journalEntry', journalSchema)
