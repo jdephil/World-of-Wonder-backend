@@ -1,8 +1,19 @@
 const express = require('express')
+const axios = require('axios')
+
 const router = express.Router()
 
 const User = require('../Models/User')
 const Artifact = require('../Models/Artifact')
+
+router.get('/', (req, res) => {
+    axios.get(`https://api.aucklandmuseum.com/id/humanhistory/object/${req.body.objectId}`)
+    .then(response => {
+        let resData = response.data
+        res.json(resData)
+    })
+    .catch(err => console.log(`🚦 ${err} 🚦`))
+})
 
 router.get('/:id', (req, res) => {
     Artifact.findById(req.params.id)
@@ -39,13 +50,18 @@ router.post('/', (req, res) => {
                 .catch(err => console.log(`🚦 ${err} 🚦`))
             }
         })
+        .catch(err => console.log(`🚦 ${err} 🚦`))
     })
+    .catch(err => console.log(`🚦 ${err} 🚦`))
 })
 
-// router.delete('/:id', (req, res) => {
-//     Artifact.deleteOne({ _id: req.params.id })
-//     .then(deleted => res.send(deleted))
-//     .catch(err => console.log(`🚦 ${err} 🚦`))
-// })
+router.delete('/:id', (req, res) => {
+    User.update(
+        { email: 'dave@dave.com' },
+        { $pull: { artifacts: req.params.id} }
+    )
+    .then(res.send(`DELETED ${req.params.id}`))
+    .catch(err => console.log(`🚦 ${err} 🚦`))
+})
 
 module.exports = router
