@@ -4,6 +4,15 @@ const router = express.Router()
 const User = require('../Models/User')
 const Artifact = require('../Models/Artifact')
 
+
+router.get('/:id', (req, res) => {
+    Artifact.findById(req.params.id)
+    .then(artifact => {
+        res.send(artifact)
+    })
+    .catch(err => console.log(`🚦 ${err} 🚦`))
+})
+
 router.post('/', (req, res) => {
     // TODO Change user to current user.
     User.findOne({ email: 'test@test.com' })
@@ -11,7 +20,7 @@ router.post('/', (req, res) => {
         Artifact.findOne({ name: req.body.name })
         .then(artifact => {
             if (artifact) {
-                res.send('Already in collection!')
+                res.send('Artifact already in collection!')
             } else {
                 const newArtifact = new Artifact({
                     name: req.body.name,
@@ -21,11 +30,19 @@ router.post('/', (req, res) => {
                 newArtifact.save()
                 user.artifacts.push(newArtifact)
                 user.save()
-                .then(user => res.json(user))
-                .catch(err => console.log(err))
+                .then(user => res.send('Artifact added!'))
+                .catch(err => console.log(`🚦 ${err} 🚦`))
             }
         })
     })
+})
+
+router.put('/', (req, res) => {
+
+})
+
+router.delete('/', (req, res) => {
+
 })
 
 module.exports = router
