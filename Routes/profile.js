@@ -1,21 +1,16 @@
 const express = require('express');
 const router = express.Router();
 
+const User = require('../Models/User')
 
-// router.get('/profile', isLoggedIn, (req, res) => {
-//   db.artifact.findAll({
-//     where: {
-//       userId: req.user.id,
-//     }
-//   }).then((artifacts) => {
-//     let artifactList = JSON.stringify(artifacts)
-//     let artifactInfo = JSON.parse(artifactList)
-//     res.render('profile', {savedArtifacts: artifactInfo})
-//   }).catch(error => {
-//     console.log(error)
-//   })
-// })
-
+router.get('/', (req, res) => {
+    // TODO Change user to current user.
+    User.findOne({ email: 'dave@dave.com' })
+    .populate('artifacts')
+    .exec((err, user) => {
+        res.json(user.artifacts)
+    })
+})
 
 // Export the Routes
 module.exports = router
