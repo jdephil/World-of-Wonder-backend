@@ -4,51 +4,62 @@ const User = require("../Models/User")
 const Journal = require('../Models/Journal');
 const { db } = require('../Models/User');
 
-// //Show all journal entries
-// router.get('/', (req, res) => {
-//   db.User.findById(5f1c6cd7f4193e0fdeeecb91).populate('journals').exec(function(err, user){
-//     console.log(user)
-//     res.send(user)
-//     })
-//     res.send(User.Journal)
+//Show all journal entries /// WORKING CORRECTLY DON'T MESS
+router.get('/', (req, res) => {
+  User.findOne({ email: req.body.email })
+    .then(user => {
+      console.log(user.journalEntries)
+      res.json(user.journalEntries)
+  })
+  .catch(error => console.log(error))
+})
 
-// // Add a new journal entry  
-// router.post('/', (req, res) => {
-//   db.User.findById({id: "5f1c6cd7f4193e0fdeeecb91"})
-//   .then(user => {
-//     const entry = new journal({ 
-//       title: "SnowShoe", 
-//       entry: "I did not realize that eskimo's used snowshoes. So cool!"
-//     })
-//     entry.save()
-//     user.journals.push(entry)
-//     user.save()
-//     .then(user => res.send("New journal entry added!"))
-//     .catch(error => console.log(`😵DANGER WILL ROBINSON DANGER: ${error}`))
-//   })
-// })
+//Show one journal entry
+router.get('/:id', (req, res) => {
+  User.findOne({ email: req.body.email })
+  .then(user => {
+    let displayedEntry = user.journalEntries.id(req.params.id)
+    res.json(displayedEntry)
+  })
+})
 
-// // //Edit a saved journal entry
-// router.put('/:id', (req, res) => {
-//   db.User.findById(`5f1c6cd7f4193e0fdeeecb91`).populate('journals').exec(function(err, user){
-//     console.log(user.journal)
-//   })
-//   .populate('journal').exec()
-//   db.Journal.findOneAndUpdate({_id: req.params.id }, req.body, { new: true })
-//   .then(updatedEntry => {
-//     res.send(updatedEntry)
-//   })
-//   .catch(err => console.error(err))
-// })
+//create a journal entry /// WORKING CORRECTLY DON'T MESS WITH IT
+router.post('/', (req, res) => {
+  User.findOne({ email: req.body.email })
+  .then(user => {
+    console.log(user)
+    user.journalEntries.push({ 
+      title: req.body.title, 
+      entry: req.body.entry
+    });
+    user.save()
+    .then(user => res.json(user))
+  })
+  .catch(error => console.log(`😵DANGER WILL ROBINSON DANGER: ${error}`))
+})
+
+////Edit a saved journal entry //// THIS IS WORKING CORRECTLY DON'T MESS
+router.put('/', (req, res) => {
+  User.findOne({ email: req.body.email })
+    .then(user => {
+      var newEntry = user.journalEntries.id(req.body.id)
+      newEntry.title = req.body.title
+      newEntry.entry = req.body.entry
+      user.save()
+      console.log(user)
+      res.json(newEntry)
+    })
+})
+
 
 // // //Delete a saved artifact
-// router.delete('/:id', (req, res) => {
-//   db.Journal.findOneAndDelete({_id: req.params.id })
-//   .then(deletedEntry => {
-//     console.log(`You successfully deleted ${deletedEntry.title}`)
-//     res.send({message: 'Successful Deletion'})
-//   })
-//   .catch(error => console.error(error))
-// })
-
+router.delete('/', (req, res) => {
+  User.findOne({ email: req.body.email })
+    .then(user => {
+      user.journalEntries.id(req.body.id).remove()
+      user.save()
+      res.json(user)
+    })
+})
+  
 module.exports = router

@@ -3,10 +3,12 @@ const Schema = mongoose.Schema
 
 const journalSchema = new Schema({
   title: {
-    type: String
+    type: String,
+    required: true
   },
-  content: {
-    type: String
+  entry: {
+    type: String,
+    required: true
   }
 }, {
   timestamps: true
@@ -34,4 +36,4 @@ const UserSchema = new Schema({
     timestamps: true
 })
 
-module.exports = User = mongoose.model('user', UserSchema)
+module.exports = mongoose.model('user', UserSchema)
