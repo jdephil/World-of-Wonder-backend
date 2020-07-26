@@ -6,6 +6,25 @@ const router = express.Router()
 const User = require('../Models/User')
 const Artifact = require('../Models/Artifact')
 
+// TODO Remove test route
+router.post('/register', (req, res) => {
+    User.findOne({ email: req.body.email })
+    .then(user => {
+        if (user) {
+            res.send(user)
+        } else {
+            const newUser = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password
+            })
+            newUser.save()
+            .then(user => res.json(user))
+            .catch(err => console.log(err))
+        }
+    })
+})
+
 router.get('/', (req, res) => {
     axios.get(`https://api.aucklandmuseum.com/id/humanhistory/object/${req.body.objectId}`)
     .then(response => {
