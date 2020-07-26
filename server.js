@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 app.use('/profile', require('./Routes/profile'))
 app.use('/journal', require('./Routes/journal'))
-app.use('/artifact', artifact)
+app.use('/artifact', require('./Routes/artifact'))
 
 app.get('/', (req, res) => {
   res.send('Welcome to our office!')
@@ -20,6 +20,3 @@ app.get('/', (req, res) => {
 app.listen(process.env.PORT || 5000, () => {
   console.log(`🍔You're listening to the smooth sounds of ${process.env.PORT || 5000}`)
 })
-
-module.exports = app;
-
