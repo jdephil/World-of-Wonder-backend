@@ -3,10 +3,12 @@ const Schema = mongoose.Schema
 
 const journalSchema = new Schema({
   title: {
-    type: String
+    type: String,
+    required: true
   },
-  content: {
-    type: String
+  entry: {
+    type: String,
+    required: true
   }
 }, {
   timestamps: true
@@ -27,7 +29,7 @@ const UserSchema = new Schema({
     },
     artifacts: [{
         type: Schema.Types.ObjectId,
-        ref: 'Artifact'
+        ref: 'artifact'
     }],
     journalEntries: [journalSchema]
 }, {
