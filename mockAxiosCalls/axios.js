@@ -17,7 +17,7 @@ axios.get(`${process.env.REACT_APP_SERVER_URL}/profile`, artifacts)
 
 //Axios call to view artifact info from API server// 
 
-axios.get(`${process.env.REACT_APP_SERVER_URL}/artifact`, artifacts)
+axios.get(`${process.env.REACT_APP_SERVER_URL}/artifact/`, artifacts)
 
 //Axios call to view info about ONE SPECIFIC artifact // 
 
@@ -25,11 +25,11 @@ axios.get(`${process.env.REACT_APP_SERVER_URL}/artifact/:id`, artifacts)
 
 //Axios call to SAVE an artifact to user's profile // 
 
-axios.post(`${process.env.REACT_APP_SERVER_URL}/artifact`, artifacts)
+axios.post(`${process.env.REACT_APP_SERVER_URL}/profile/artifact/`, artifacts)
 
 //Axios call to DELETE an artifact from a user's profile // 
 
-axios.delete(`${process.env.REACT_APP_SERVER_URL}/artifact/:id`, artifacts)
+axios.delete(`${process.env.REACT_APP_SERVER_URL}/profile/artifact/:id`, artifacts)
 
 //// -------------------- JOURNAL ENTRY AXIOS CALLS --------------- ////
 
@@ -49,10 +49,10 @@ axios.get(`${process.env.REACT_APP_SERVER_URL}/journal/:id`, journalEntries)
 axios.post(`${process.env.REACT_APP_SERVER_URL}/journal`, journalEntries)
 
 //Axios call to edit a journal entry
-axios.put(`${process.env.REACT_APP_SERVER_URL}/journal`, journalEntries)
+axios.put(`${process.env.REACT_APP_SERVER_URL}/journal/:id`, journalEntries)
 
 //Axios call to delete a journal entry
-axios.delete(`${process.env.REACT_APP_SERVER_URL}/journal`, journalEntries)
+axios.delete(`${process.env.REACT_APP_SERVER_URL}/journal/:id`, journalEntries)
 
 
 
