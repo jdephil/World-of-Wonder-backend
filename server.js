@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 app.use(passport.initialize())
 require('./config/passport')(passport)
 
-app.use('/artifact', passport.authenticate('jwt', { session: false }), require('./Routes/artifact'))
+app.use('/artifact', require('./Routes/artifact'))
 app.use('/journal', passport.authenticate('jwt', { session: false }), require('./Routes/journal'))
 app.use('/profile', passport.authenticate('jwt', { session: false }), require('./Routes/profile'))
 app.use('/', require('./Routes/auth'))
