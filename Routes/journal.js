@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../Models/User")
-const Journal = require('../Models/Journal');
-const { db } = require('../Models/User');
 
 //Show all journal entries /// WORKING CORRECTLY DON'T MESS
 router.get('/', (req, res) => {
