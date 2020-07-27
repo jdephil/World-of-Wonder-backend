@@ -3,8 +3,8 @@ const axios = require('axios')
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-    axios.get(`https://api.aucklandmuseum.com/id/humanhistory/object/${req.body.objectId}`)
+router.get('/:id', (req, res) => {
+    axios.get(`https://api.aucklandmuseum.com/id/humanhistory/object/${req.params.id}`)
     .then(response => {
         let resData = response.data
         res.json(resData)

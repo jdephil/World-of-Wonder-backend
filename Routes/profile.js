@@ -5,7 +5,6 @@ const User = require('../Models/User')
 const Artifact = require('../Models/Artifact')
 
 router.get('/', (req, res) => {
-    // TODO Change user to current user.
     User.findById(req.user._doc._id)
     .populate('artifacts')
     .exec((err, user) => {
