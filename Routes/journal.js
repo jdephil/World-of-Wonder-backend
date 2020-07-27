@@ -38,10 +38,10 @@ router.post('/', (req, res) => {
 })
 
 ////Edit a saved journal entry //// THIS IS WORKING CORRECTLY DON'T MESS
-router.put('/', (req, res) => {
+router.put('/:id', (req, res) => {
   User.findById(req.user._doc._id)
     .then(user => {
-      var newEntry = user.journalEntries.id(req.body.id)
+      var newEntry = user.journalEntries.id(req.params.id)
       newEntry.title = req.body.title
       newEntry.entry = req.body.entry
       user.save()
@@ -53,10 +53,10 @@ router.put('/', (req, res) => {
 
 
 // // //Delete a saved journal entry
-router.delete('/', (req, res) => {
+router.delete('/:id', (req, res) => {
   User.findById(req.user._doc._id)
     .then(user => {
-      user.journalEntries.id(req.body.id).remove()
+      user.journalEntries.id(req.params.id).remove()
       user.save()
       res.json(user)
     })
