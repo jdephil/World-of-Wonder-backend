@@ -1,31 +1,30 @@
 const express = require('express');
 const router = express.Router();
 const User = require("../Models/User")
-const Journal = require('../Models/Journal');
-const { db } = require('../Models/User');
 
 //Show all journal entries /// WORKING CORRECTLY DON'T MESS
 router.get('/', (req, res) => {
-  User.findOne({ email: req.body.email })
+  User.findById(req.user._doc._id)
     .then(user => {
       console.log(user.journalEntries)
       res.json(user.journalEntries)
   })
-  .catch(error => console.log(error))
+  .catch(error => res.send(error))
 })
 
 //Show one journal entry
 router.get('/:id', (req, res) => {
-  User.findOne({ email: req.body.email })
+  User.findById(req.user._doc._id)
   .then(user => {
     let displayedEntry = user.journalEntries.id(req.params.id)
     res.json(displayedEntry)
   })
+  .catch(error => res.send(error))
 })
 
 //create a journal entry /// WORKING CORRECTLY DON'T MESS WITH IT
 router.post('/', (req, res) => {
-  User.findOne({ email: req.body.email })
+  User.findById(req.user._doc._id)
   .then(user => {
     console.log(user)
     user.journalEntries.push({ 
@@ -35,12 +34,12 @@ router.post('/', (req, res) => {
     user.save()
     .then(user => res.json(user))
   })
-  .catch(error => console.log(`😵DANGER WILL ROBINSON DANGER: ${error}`))
+  .catch(error => res.send(`😵DANGER WILL ROBINSON DANGER: ${error}`))
 })
 
 ////Edit a saved journal entry //// THIS IS WORKING CORRECTLY DON'T MESS
 router.put('/', (req, res) => {
-  User.findOne({ email: req.body.email })
+  User.findById(req.user._doc._id)
     .then(user => {
       var newEntry = user.journalEntries.id(req.body.id)
       newEntry.title = req.body.title
@@ -49,17 +48,19 @@ router.put('/', (req, res) => {
       console.log(user)
       res.json(newEntry)
     })
+    .catch(error => res.send(error))
 })
 
 
-// // //Delete a saved artifact
+// // //Delete a saved journal entry
 router.delete('/', (req, res) => {
-  User.findOne({ email: req.body.email })
+  User.findById(req.user._doc._id)
     .then(user => {
       user.journalEntries.id(req.body.id).remove()
       user.save()
       res.json(user)
     })
+    .catch(error => res.send(error))
 })
   
 module.exports = router
