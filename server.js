@@ -1,7 +1,11 @@
 const express = require('express')
-const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+require('dotenv').config()
+const cors = require('cors')
+const passport = require('passport')
+
+const app = express()
 const User = require("./Models/User")
 
 const db = 'mongodb://localhost:27017/worldofwonder'
@@ -9,31 +13,23 @@ mongoose.connect(db).then((() => console.log('MONGOOSE CONNECTED'))).catch(error
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
-app.use('/profile', require('./Routes/profile'))
-app.use('/journal', require('./Routes/journal'))
-app.use('/artifact', require('./Routes/artifact'))
+
+app.use(cors({
+  origin: process.env.CLIENT_URL,
+  optionsSuccessStatus: 200
+}))
 
 app.get('/', (req, res) => {
   res.send('Welcome to our office!')
 })
 
-app.post('/register', (req, res) => {
-  User.findOne({ email: req.body.email })
-  .then(user => {
-      if (user) {
-          res.send(user)
-      } else {
-          const newUser = new User({
-              name: req.body.name,
-              email: req.body.email,
-              password: req.body.password
-          })
-          newUser.save()
-          .then(user => res.json(user))
-          .catch(err => console.log(err))
-      }
-  })
-})
+app.use(passport.initialize())
+require('./config/passport')(passport)
+
+app.use('/artifact', require('./Routes/artifact'))
+app.use('/journal', passport.authenticate('jwt', { session: false }), require('./Routes/journal'))
+app.use('/profile', passport.authenticate('jwt', { session: false }), require('./Routes/profile'))
+app.use('/', require('./Routes/auth'))
 
 //============================  Listen
 app.listen(process.env.PORT || 5000, () => {
