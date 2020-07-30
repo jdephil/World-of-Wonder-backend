@@ -8,8 +8,17 @@ const passport = require('passport')
 const app = express()
 const User = require("./Models/User")
 
-const db = 'mongodb://localhost:27017/worldofwonder'
-mongoose.connect(db).then((() => console.log('MONGOOSE CONNECTED'))).catch(error => console.log(error))
+const uri = process.env.MONGOD_URI
+
+const MongoClient = require('mongodb').MongoClient;
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+mongoose.connect(uri).then((() => console.log('MONGOOSE CONNECTED'))).catch(error => console.log(error))
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
