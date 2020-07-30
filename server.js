@@ -6,7 +6,7 @@ const cors = require('cors')
 const passport = require('passport')
 
 const app = express()
-const User = require("./Models/User")
+const User = require("./lib/Models/User")
 
 const uri = process.env.MONGODB_URI
 
